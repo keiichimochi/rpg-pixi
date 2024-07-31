@@ -1,12 +1,16 @@
 // フィールドを表示するためのコード
-const app = new PIXI.Application({ width: 800, height: 600 });
+const app = new PIXI.Application({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    resizeTo: window // ウィンドウサイズに合わせてリサイズ
+});
 document.getElementById('game-container').appendChild(app.view);
 
 // タイルのサイズ
 const tileSize = 16; // 元のタイルのサイズ（16x16ピクセル）
 const scale = 4; // 拡大率
-const rows = 16; // 縦のタイル数
-const cols = 16; // 横のタイル数
+const rows = Math.ceil(window.innerHeight / (tileSize * scale)); // 縦のタイル数
+const cols = Math.ceil(window.innerWidth / (tileSize * scale)); // 横のタイル数
 
 // テクスチャの読み込み
 const grassTexture = PIXI.Texture.from('./assets/images/rpg/map/dq2map/grass_1.png');
@@ -90,19 +94,25 @@ const createButton = (text, x, y, onClick) => {
 };
 
 // コントローラーのボタンを作成（右下に配置）
-createButton('↑', 700, 500, () => {
+createButton('↑', window.innerWidth - 100, window.innerHeight - 100, () => {
     movePlayer(0, -tileSize * scale, 'up');
     startAnimation('up');
 });
-createButton('↓', 700, 550, () => {
+createButton('↓', window.innerWidth - 100, window.innerHeight - 50, () => {
     movePlayer(0, tileSize * scale, 'down');
     startAnimation('down');
 });
-createButton('←', 650, 525, () => {
+createButton('←', window.innerWidth - 150, window.innerHeight - 75, () => {
     movePlayer(-tileSize * scale, 0, 'left');
     startAnimation('left');
 });
-createButton('→', 750, 525, () => {
+createButton('→', window.innerWidth - 50, window.innerHeight - 75, () => {
     movePlayer(tileSize * scale, 0, 'right');
     startAnimation('right');
+});
+
+// ウィンドウサイズ変更時のリサイズ処理
+window.addEventListener('resize', () => {
+    app.renderer.resize(window.innerWidth, window.innerHeight);
+    // タイルの再配置など必要に応じて追加処理を行う
 });
