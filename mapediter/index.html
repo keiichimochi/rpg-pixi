@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>イカクエスト作成ツール</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>イカクエスト作成ツール</h1>
+    <div id="editor">
+        <div id="map-container">
+            <canvas id="mapCanvas" width="512" height="512"></canvas>
+        </div>
+        <div id="controls">
+            <div id="tileset-container"></div>
+            <input type="text" id="fileNameInput" placeholder="ファイル名">
+            <button id="saveMap">保存</button>
+            <button id="loadMap">読み込み</button>
+            <input type="file" id="fileInput" accept=".json" style="display:none">
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

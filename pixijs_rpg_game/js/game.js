@@ -7,10 +7,10 @@ const app = new PIXI.Application({
 document.getElementById('game-container').appendChild(app.view);
 
 // タイルのサイズ
-const tileSize = 16; // 元のタイルのサイズ（16x16ピクセル）
-const scale = 4; // 拡大率
-const rows = Math.ceil(window.innerHeight / (tileSize * scale)); // 縦のタイル数
-const cols = Math.ceil(window.innerWidth / (tileSize * scale)); // 横のタイル数
+const tileSize = 16 * 4; // 元のタイルのサイズ（16x16ピクセル）を3倍に
+const scale = 16; // スプライトの拡大率
+const rows = Math.ceil(window.innerHeight / (tileSize)); // 縦のタイル数
+const cols = Math.ceil(window.innerWidth / (tileSize)); // 横のタイル数
 
 // テクスチャの読み込み
 const grassTexture = PIXI.Texture.from('./assets/images/rpg/map/dq2map/grass_1.png');
@@ -19,10 +19,10 @@ const grassTexture = PIXI.Texture.from('./assets/images/rpg/map/dq2map/grass_1.p
 for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
         const tile = new PIXI.Sprite(grassTexture);
-        tile.x = col * tileSize * scale; // タイルのX座標
-        tile.y = row * tileSize * scale; // タイルのY座標
-        tile.width = tileSize * scale; // タイルの幅を拡大
-        tile.height = tileSize * scale; // タイルの高さを拡大
+        tile.x = col * tileSize; // タイルのX座標
+        tile.y = row * tileSize; // タイルのY座標
+        tile.width = tileSize; // タイルの幅を設定
+        tile.height = tileSize; // タイルの高さを設定
         app.stage.addChild(tile);
     }
 }
@@ -30,6 +30,8 @@ for (let row = 0; row < rows; row++) {
 // プレイヤーの初期化
 const player = new Player('勇者', 100, 20);
 player.initSprite('./assets/images/characters/main/d1.png'); // 初期スプライトを設定
+player.sprite.width *= scale; // スプライトの幅を3倍に
+player.sprite.height *= scale; // スプライトの高さを3倍に
 app.stage.addChild(player.sprite); // スプライトをステージに追加
 
 // スプライトのアニメーション
@@ -43,10 +45,15 @@ const frames = {
 };
 
 // プレイヤーの移動
+let targetX = player.sprite.x;
+let targetY = player.sprite.y;
+const speed = 5; // 移動速度
+
 const movePlayer = (dx, dy, direction) => {
-    player.sprite.x += dx;
-    player.sprite.y += dy;
-    player.sprite.texture = PIXI.Texture.from(frames[direction][currentFrame % frames[direction].length]);
+    targetX += dx; // ターゲットXを更新
+    targetY += dy; // ターゲットYを更新
+    player.sprite.texture = PIXI.Texture.from(frames[direction][0]); // すぐにスプライトを切り替え
+    startAnimation(direction); // アニメーションを開始
 };
 
 // アニメーションの開始
@@ -56,27 +63,33 @@ const startAnimation = (direction) => {
     animationInterval = setInterval(() => {
         currentFrame = (currentFrame + 1) % frames[direction].length; // フレームを切り替え
         player.sprite.texture = PIXI.Texture.from(frames[direction][currentFrame]); // スプライトのテクスチャを更新
-    }, 500); // 0.5秒ごとに切り替え
+    }, 250); // 0.25秒ごとに切り替え
+};
+
+// 更新ループ
+const update = () => {
+    if (Math.abs(player.sprite.x - targetX) > 1 || Math.abs(player.sprite.y - targetY) > 1) {
+        // 目標位置に向かって移動
+        player.sprite.x += (targetX - player.sprite.x) * 0.1; // 10%の距離を移動
+        player.sprite.y += (targetY - player.sprite.y) * 0.1; // 10%の距離を移動
+    }
+    requestAnimationFrame(update); // 次のフレームをリクエスト
 };
 
 // キー操作の設定
 window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'ArrowUp':
-            movePlayer(0, -tileSize * scale, 'up');
-            startAnimation('up');
+            movePlayer(0, -tileSize, 'up');
             break;
         case 'ArrowDown':
-            movePlayer(0, tileSize * scale, 'down');
-            startAnimation('down');
+            movePlayer(0, tileSize, 'down');
             break;
         case 'ArrowLeft':
-            movePlayer(-tileSize * scale, 0, 'left');
-            startAnimation('left');
+            movePlayer(-tileSize, 0, 'left');
             break;
         case 'ArrowRight':
-            movePlayer(tileSize * scale, 0, 'right');
-            startAnimation('right');
+            movePlayer(tileSize, 0, 'right');
             break;
     }
 });
@@ -94,22 +107,23 @@ const createButton = (text, x, y, onClick) => {
 };
 
 // コントローラーのボタンを作成（右下に配置）
-createButton('↑', window.innerWidth - 100, window.innerHeight - 100, () => {
-    movePlayer(0, -tileSize * scale, 'up');
-    startAnimation('up');
+const buttonOffsetX = 20; // ボタンのオフセット
+const buttonOffsetY = 20; // ボタンのオフセット
+createButton('↑', window.innerWidth - 100 - buttonOffsetX, window.innerHeight - 100 - buttonOffsetY, () => {
+    movePlayer(0, -tileSize, 'up');
 });
-createButton('↓', window.innerWidth - 100, window.innerHeight - 50, () => {
-    movePlayer(0, tileSize * scale, 'down');
-    startAnimation('down');
+createButton('↓', window.innerWidth - 100 - buttonOffsetX, window.innerHeight - 50 - buttonOffsetY, () => {
+    movePlayer(0, tileSize, 'down');
 });
-createButton('←', window.innerWidth - 150, window.innerHeight - 75, () => {
-    movePlayer(-tileSize * scale, 0, 'left');
-    startAnimation('left');
+createButton('←', window.innerWidth - 150 - buttonOffsetX, window.innerHeight - 75 - buttonOffsetY, () => {
+    movePlayer(-tileSize, 0, 'left');
 });
-createButton('→', window.innerWidth - 50, window.innerHeight - 75, () => {
-    movePlayer(tileSize * scale, 0, 'right');
-    startAnimation('right');
+createButton('→', window.innerWidth - 50 - buttonOffsetX, window.innerHeight - 75 - buttonOffsetY, () => {
+    movePlayer(tileSize, 0, 'right');
 });
+
+// 更新ループを開始
+update();
 
 // ウィンドウサイズ変更時のリサイズ処理
 window.addEventListener('resize', () => {

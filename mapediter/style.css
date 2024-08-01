@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#editor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#map-container {
+    position: relative;
+}
+
+#mapCanvas {
+    border: 1px solid #000;
+}
+
+#controls {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tileset-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 512px;
+    margin-top: 10px;
+}
+
+.tileset-tile {
+    border: 1px solid #000;
+    cursor: pointer;
+    width: 16px; /* 固定サイズ */
+    height: 16px; /* 固定サイズ */
+}
+
+.tileset-tile.selected {
+    border: 2px solid red;
+}
