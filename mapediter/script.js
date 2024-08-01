@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadButton = document.getElementById('loadMap');
     const fileInput = document.getElementById('fileInput');
     const fileNameInput = document.getElementById('fileNameInput');
+    const collisionButton = document.getElementById('checkCollision');
     const tilesetContainer = document.getElementById('tileset-container');
 
     const tileSize = 16;
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const tileImages = [];
 
     let isMouseDown = false;
+    let showCollisions = false;
 
     saveButton.addEventListener('click', saveMap, false);
     loadButton.addEventListener('click', () => fileInput.click(), false);
@@ -23,30 +25,36 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener('mousemove', drawTile, false);
     canvas.addEventListener('mouseup', stopDrawing, false);
     canvas.addEventListener('mouseleave', stopDrawing, false);
+    collisionButton.addEventListener('click', toggleCollisions, false);
 
     function loadTileset() {
-        const numTiles = 256;  // 仮に256個のタイルがあるとする（必要に応じて調整）
-        for (let i = 1; i <= numTiles; i++) {
-            const path = `map/tile${i}.png`;
-            const img = new Image();
-            img.src = path;
-            img.onload = () => {
-                tileImages[i - 1] = img;
-                const tile = document.createElement('div');
-                tile.classList.add('tileset-tile');
-                tile.style.backgroundImage = `url(${img.src})`;
-                tile.style.backgroundSize = 'cover';
-                tile.dataset.index = i - 1;
+        fetch('dataset/tileset.json')
+            .then(response => response.json())
+            .then(data => {
+                data.tiles.forEach((tile, index) => {
+                    const img = new Image();
+                    img.src = tile.src;
+                    img.onload = () => {
+                        tileImages[index] = {img, collision: tile.collision};
+                        const tileElement = document.createElement('div');
+                        tileElement.classList.add('tileset-tile');
+                        tileElement.style.backgroundImage = `url(${img.src})`;
+                        tileElement.style.backgroundSize = 'cover';
+                        tileElement.dataset.index = index;
 
-                tile.addEventListener('click', () => {
-                    document.querySelectorAll('.tileset-tile').forEach(t => t.classList.remove('selected'));
-                    tile.classList.add('selected');
-                    selectedTileIndex = i - 1;
+                        tileElement.addEventListener('click', () => {
+                            document.querySelectorAll('.tileset-tile').forEach(t => t.classList.remove('selected'));
+                            tileElement.classList.add('selected');
+                            selectedTileIndex = index;
+                        });
+
+                        tilesetContainer.appendChild(tileElement);
+                    };
                 });
-
-                tilesetContainer.appendChild(tile);
-            };
-        }
+            })
+            .catch(error => {
+                console.error('Error loading tileset.json:', error);
+            });
     }
 
     function drawMap() {
@@ -54,9 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let y = 0; y < mapSize; y++) {
             for (let x = 0; x < mapSize; x++) {
                 const tile = map[y][x].tile;
-                const img = tileImages[tile];
-                if (img) {
+                if (tileImages[tile]) {
+                    const img = tileImages[tile].img;
                     ctx.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize);
+                    if (showCollisions && map[y][x].collision) {
+                        ctx.fillStyle = 'rgba(255, 165, 0, 0.5)';
+                        ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                    }
                 }
             }
         }
@@ -83,7 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = Math.floor((event.clientY - rect.top) / tileSize);
 
         if (x >= 0 && x < mapSize && y >= 0 && y < mapSize) {
-            map[y][x] = {tile: selectedTileIndex, collision: false}; // マップにタイルを配置
+            const tile = selectedTileIndex;
+            const collision = tileImages[tile].collision;
+            map[y][x] = {tile, collision}; // マップにタイルを配置
             drawMap();
         }
     }
@@ -91,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveMap() {
         const data = {
             map: map,
-            tileSet: tileImages.map(img => img.src)
+            tileSet: tileImages.map(img => img.img.src)
         };
         const fileName = fileNameInput.value || 'map';
         const a = document.createElement('a');
@@ -109,6 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
             drawMap();
         };
         reader.readAsText(file);
+    }
+
+    function toggleCollisions() {
+        showCollisions = !showCollisions;
+        drawMap();
     }
 
     loadTileset();

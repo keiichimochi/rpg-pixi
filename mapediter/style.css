@@ -35,8 +35,8 @@ body {
 .tileset-tile {
     border: 1px solid #000;
     cursor: pointer;
-    width: 16px; /* 固定サイズ */
-    height: 16px; /* 固定サイズ */
+    width: 16px;
+    height: 16px;
 }
 
 .tileset-tile.selected {

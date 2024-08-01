@@ -127,6 +127,78 @@
         {
             "src": "map/tile32.png",
             "collision": true
+        },
+        {
+            "src": "map/tile33.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile34.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile35.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile36.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile37.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile38.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile39.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile40.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile41.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile42.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile43.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile44.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile45.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile46.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile47.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile48.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile49.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile50.png",
+            "collision": false
         }
     ]
 }

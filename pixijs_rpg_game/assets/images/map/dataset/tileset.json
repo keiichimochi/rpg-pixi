@@ -1,0 +1,204 @@
+{
+    "tiles": [
+        {
+            "src": "map/tile1.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile2.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile3.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile4.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile5.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile6.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile7.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile8.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile9.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile10.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile11.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile12.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile13.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile14.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile15.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile16.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile17.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile18.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile19.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile20.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile21.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile22.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile23.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile24.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile25.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile26.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile27.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile28.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile29.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile30.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile31.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile32.png",
+            "collision": true
+        },
+        {
+            "src": "map/tile33.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile34.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile35.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile36.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile37.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile38.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile39.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile40.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile41.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile42.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile43.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile44.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile45.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile46.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile47.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile48.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile49.png",
+            "collision": false
+        },
+        {
+            "src": "map/tile50.png",
+            "collision": false
+        }
+    ]
+}
